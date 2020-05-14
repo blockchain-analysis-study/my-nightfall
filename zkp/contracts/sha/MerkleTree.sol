@@ -90,6 +90,10 @@ contract MerkleTree {
     @param leafValue - the value of the leaf being inserted.
     @return bytes32 - the root of the merkle tree, after the insert.
     */
+    // 将叶子插入Merkle树，更新根，并更新（持久存储）边界中的任何值
+    //
+    // leafValue: 插入的叶子的值
+    // 返参: 在插入之后，merkle树的根
     function insertLeaf(bytes32 leafValue) public returns (bytes32 root) {
 
         // check that space exists in the tree:
@@ -177,6 +181,8 @@ contract MerkleTree {
     @param leafValues - the values of the leaves being inserted.
     @return bytes32[] - the root of the merkle tree, after all the inserts.
     */
+    // 将多片叶子插入Merkle树，然后更新根，并更新（持久存储）边界中的任何值
+    //
     function insertLeaves(bytes32[] memory leafValues) public returns (bytes32 root) {
         uint numberOfLeaves = leafValues.length;
 

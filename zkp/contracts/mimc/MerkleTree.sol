@@ -9,6 +9,7 @@ pragma solidity ^0.5.8;
 
 import "./MiMC.sol"; // import contract with MiMC function
 
+// Merkle tree 合约
 contract MerkleTree is MiMC {
 
     /*

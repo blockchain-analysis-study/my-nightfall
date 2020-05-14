@@ -32,7 +32,9 @@ import "./ERC20Interface.sol";
 import "./SafeMath.sol";
 
 
-
+//
+// 这是 安永会计师事务所 的 ERC20 token (OPS, EY OpsCoin)
+//
 contract FToken is ERC20Interface {
 
   using SafeMath for uint256;
