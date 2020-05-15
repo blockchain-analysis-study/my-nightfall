@@ -28,6 +28,8 @@ pragma solidity ^0.5.8;
 import "./Ownable.sol";
 import "./Pairing.sol";
 
+
+// TODO GM17
 contract Verifier is Ownable {
 
   using Pairing for *;

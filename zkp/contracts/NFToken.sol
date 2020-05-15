@@ -37,6 +37,9 @@ import "./AddressUtils.sol";
 /**
  * @dev Implementation of ERC-721 non-fungible token standard.
  */
+//
+//
+// TODO EY 发行的 ERC721 的代币合约，EYToken，简称 EYT
 contract NFToken is
   ERC721Interface,
   SupportsInterface

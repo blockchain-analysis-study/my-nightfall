@@ -33,7 +33,7 @@ import "./SafeMath.sol";
 
 
 //
-// 这是 安永会计师事务所 的 ERC20 token (OPS, EY OpsCoin)
+// TODO EY 发行的 ERC20 的代币合约，EY OPs Coin，简称 OPS
 //
 contract FToken is ERC20Interface {
 
@@ -47,6 +47,8 @@ contract FToken is ERC20Interface {
 
   mapping (address => uint256) private balances;
   mapping (address => mapping (address => uint256)) private allowed;
+
+  // time lock 在 批准其他人时，限定其他人帮忙花费 token 的失效限制
   mapping (address => mapping (address => uint)) private timeLock;
 
 

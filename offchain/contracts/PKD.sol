@@ -4,11 +4,23 @@ This contract acts as a Public Key Directory for looking up ZKP public keys if y
 the Ethereum address.  It also works as a simple Name Service
 @author Westlad
 */
+// 如果您知道以太坊地址，则该合约充当用于查找ZKP公共密钥的公共密钥目录。 它也可以用作简单的[名称服务].
+//
+// TODO 存储公钥合约,
+// 公钥包括两部分:
+//      1. whisper 本身的公钥
+//      2. 隐私交易的公钥（地址）
+// 简单的说，offchain 模块维护了线下的公钥，并提供了相互查询的功能.
+
 contract PKD{
 
   mapping ( bytes32 => address) private byName;
   mapping ( address => bytes32) private byAddress;
+
+  // whisper 的公钥集 (用于 p2p)
   mapping ( address => string) private WhisperPublicKeyByAddress;
+
+  // 零知识证明 的公钥集 (用于隐私交易)
   mapping ( address => bytes32) private ZkpPublicKeyByAddress;
   mapping ( bytes32 => address) private AddressByZkpPublicKey;
   bytes32[] private names;

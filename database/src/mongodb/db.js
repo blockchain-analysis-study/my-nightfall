@@ -12,6 +12,7 @@ import {
   blacklistSchema,
 } from '../models';
 
+// todo 用于存储所有链下数据 (all data of off chain)
 const mongo = config.get('mongo');
 
 export default class DB {

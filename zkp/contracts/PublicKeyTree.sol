@@ -46,6 +46,9 @@ contract PublicKeyTree is MiMC, Ownable {
   mapping (address => uint256) internal blacklist;
 
   // 所有有效 索引 merkle tree root 的链接列表，每个值都指向上一个根，以使它们全部都可以删除
+  //
+  // todo
+  //    在 Shield 合约的 transferRC() 和 burnRC() 两个函数是否可用
   mapping (bytes32 => bytes32) public publicKeyRoots; //linked list of all valid roots each value points to the previous root to enable them all to be deleted
 
   // 初始的 publicKey 的 merkle tree root

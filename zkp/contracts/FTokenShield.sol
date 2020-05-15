@@ -11,7 +11,9 @@ import "./Verifier_Interface.sol";
 import "./ERC20Interface.sol";
 import "./PublicKeyTree.sol";
 
-// 这个是 Nightfall 的 隐私token 合约
+// TODO Fungible Tokens (FToken)
+//
+// TODO ERC20 对应的隐私交易合约，管理所有隐私交易信息
 //
 // Nightfall中的六个主要子协议为以下：
 //
@@ -21,18 +23,20 @@ import "./PublicKeyTree.sol";
 //      Mint ERC-721 Token Commitment ERC721铸币承兑协议
 //      Transfer ERC-721 Token Commitment ERC721转移承兑协议
 //      Burn ERC-721 Token Commitment ERC721销毁承兑协议
+//
+// TODO 6中操作： ft-mint , ft-transfer , ft-burn , nft-mint , nft-transfer , nft-burn
 
 contract FTokenShield is Ownable, MerkleTree, PublicKeyTree {
     // ENUMS:
     enum TransactionTypes {
-        Mint, // 铸币
-        Transfer, // 转账
-        Burn, // 提币
-        SimpleBatchTransfer, // 批转账
-        ConsolidationTransfer, // 保密转账
-        MintRC, //
-        TransferRC, //
-        BurnRC                    //
+        Mint,                       // 铸币
+        Transfer,                   // 转账
+        Burn,                       // 提币
+        SimpleBatchTransfer,        // 批转账
+        ConsolidationTransfer,      // 保密转账
+        MintRC,                     // todo 没用?
+        TransferRC,                 // todo 没用?
+        BurnRC                      // todo 没用?
     }
 
     // EVENTS:
@@ -338,7 +342,13 @@ contract FTokenShield is Ownable, MerkleTree, PublicKeyTree {
     // 保密转移 commitment, 最多可以转移 20个
     //
     // todo 和 simpleBatchTransfer() 配对看, 就明白了
-    function consolidationTransfer(uint256[] calldata _proof, uint256[] calldata _inputs, bytes32 _root, bytes32[] calldata _nullifiers, bytes32 _commitment) external {
+    function consolidationTransfer(
+        uint256[] calldata _proof,
+        uint256[] calldata _inputs,
+        bytes32 _root,
+        bytes32[] calldata _nullifiers,
+        bytes32 _commitment
+    ) external {
 
         // gas measurement:
         uint256 gasCheckpoint = gasleft();

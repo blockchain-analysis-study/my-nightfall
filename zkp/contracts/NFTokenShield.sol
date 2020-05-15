@@ -9,6 +9,27 @@ import "./MerkleTree.sol";
 import "./Verifier_Interface.sol";
 import "./ERC721Interface.sol";
 
+// 將交易分成承諾協議通知
+//（commitment）和廢止通知（nullifier）兩個階段，從而隱藏代幣資訊和交易主體
+// 承諾協議通知是一筆交易存在的唯一證明，廢止通知是銷毀承諾協議通知的唯一憑證。他們一一對應，外界卻無法由任一個廢止通知去
+// 倒推出具體的承諾協議。在一個多筆交易存在的區塊鏈網路中，成功隱藏了交易雙方的對應關係。
+
+// TODO Non-Fungible Tokens (NFToken)
+//
+// TODO ERC721 对应的隐私交易合约，管理所有隐私交易信息
+//
+// Nightfall中的六个主要子协议为以下：
+//
+//      Mint ERC-20 Token Commitment ERC20铸币承兑协议
+//      Transfer ERC-20 Token Commitment ERC20转移承兑协议
+//      Burn ERC-20 Token Commitment ERC20销毁承兑协议
+//      Mint ERC-721 Token Commitment ERC721铸币承兑协议
+//      Transfer ERC-721 Token Commitment ERC721转移承兑协议
+//      Burn ERC-721 Token Commitment ERC721销毁承兑协议
+//
+// TODO 6中操作： ft-mint , ft-transfer , ft-burn , nft-mint , nft-transfer , nft-burn
+
+
 contract NFTokenShield is Ownable, MerkleTree {
     // ENUMS:
     enum TransactionTypes { Mint, Transfer, Burn }

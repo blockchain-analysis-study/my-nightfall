@@ -7,11 +7,13 @@ arbitrary amounts of currency in zero knowlege.
 @author westlad, Chaitanya-Konda, iAmMichaelConnor
 */
 
+// TODO 这个才是真正的  ERC20 隐私交易的真正入口
 import contract from 'truffle-contract';
 import jsonfile from 'jsonfile';
 import zkp from './f-token-zkp';
 import Web3 from './web3';
 import { getContractAddress } from './contractUtils';
+
 
 const FTokenShield = contract(jsonfile.readFileSync('./build/contracts/FTokenShield.json'));
 FTokenShield.setProvider(Web3.connect());
