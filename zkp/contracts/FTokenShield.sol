@@ -69,6 +69,9 @@ contract FTokenShield is Ownable, MerkleTree, PublicKeyTree {
     //
     // todo (root => root) 沃日,为什么要这么放
     mapping(bytes32 => bytes32) public roots; // holds each root we've calculated so that we can pull the one relevant to the prover
+
+    // TODO 存储 verification Key (用于生成 proof)
+    //
     // 映射到枚举 (uint => TransactionTypes)
     mapping(uint => uint256[]) public vks; // mapped to by an enum uint(TransactionTypes):
     // 持有最新 root 目录的索引，以便证明方可以在以后提供它，并且此合同可以查找相关的 root目录
@@ -109,6 +112,7 @@ contract FTokenShield is Ownable, MerkleTree, PublicKeyTree {
     Stores verification keys (for the 'mint', 'transfer' and 'burn' computations).
     */
     // 存储验证密钥 (用于 'mint', 'transfer' 和 'burn' 计算)
+    // TODO verification Key 用来生成 proof ??
     function registerVerificationKey(uint256[] calldata _vk, TransactionTypes _txType) external onlyOwner {
         // CAUTION: we do not prevent overwrites of vk's. Users must listen for the emitted event to detect updates to a vk.
         // 注意：我们不防止覆盖vk。 用户必须侦听发出的事件以检测对vk的更新。

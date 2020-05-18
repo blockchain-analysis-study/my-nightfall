@@ -66,6 +66,7 @@ export async function getFTTransactions(req, res, next) {
  * @param {*} req
  * @param {*} res
 */
+// todo 铸币 api入口
 export async function mintFToken(req, res, next) {
   try {
     await zkp.mintFToken(req.user, req.body);

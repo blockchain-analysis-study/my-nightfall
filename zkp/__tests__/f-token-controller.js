@@ -61,9 +61,17 @@ if (process.env.COMPLIANCE !== 'true') {
     publicKeyA = utils.hash(secretKeyA);
     publicKeyB = utils.hash(secretKeyB);
     commitmentAliceC = utils.concatenateThenHash(
+
+      // ERC20 token 合约地址
       erc20AddressPadded,
+
+      // 本次 mint 的token 金额
       amountC,
+
+      // mint发起者 Alice 自己的公钥
       publicKeyA,
+
+      // Alice 的 salt C
       saltAliceC,
     );
     commitmentAliceD = utils.concatenateThenHash(
@@ -131,14 +139,28 @@ if (process.env.COMPLIANCE !== 'true') {
       expect('EY OpsCoin').toEqual(name);
     });
 
+
+    // todo 测试 ftoken mint
     test('Should mint an ERC-20 commitment Z_A_C for Alice for asset C', async () => {
       console.log('Alices account ', (await controller.getBalance(accounts[0])).toNumber());
+
+
+      // Alice 发起 mint,
+
       const { commitment: zTest, commitmentIndex: zIndex } = await erc20.mint(
+
+        // 本次 mint 的token金额
         amountC,
+        // Alice 的公钥
         publicKeyA,
+
+        // Alice 的 salt
         saltAliceC,
         {
+
+          // ERC20 token 合约地址
           erc20Address,
+          //
           account: accounts[0],
           fTokenShieldJson,
           fTokenShieldAddress,
@@ -157,6 +179,8 @@ if (process.env.COMPLIANCE !== 'true') {
     test('Should mint another ERC-20 commitment Z_A_D for Alice for asset D', async () => {
       const { commitment: zTest, commitmentIndex: zIndex } = await erc20.mint(
         amountD,
+
+        // Alice 的公钥 (加密世界用)
         publicKeyA,
         saltAliceD,
         {
@@ -178,6 +202,11 @@ if (process.env.COMPLIANCE !== 'true') {
 
     test('Should transfer a ERC-20 commitment to Bob (two coins get nullified, two created; one coin goes to Bob, the other goes back to Alice as change)', async () => {
       // E becomes Bob's, F is change returned to Alice
+
+      // Alice 转 一部分 加密币 给 Bob
+
+      // 产生 两个 commitment (E、F), 使用 之前Alice 两次 mint 的 commitment C和D 生成两个 nullifier C和D
+      // 然后, 目标是生成两个 新的 commitment E和F
       const inputCommitments = [
         { value: amountC, salt: saltAliceC, commitment: commitmentAliceC, commitmentIndex: zInd1 },
         { value: amountD, salt: saltAliceD, commitment: commitmentAliceD, commitmentIndex: zInd2 },

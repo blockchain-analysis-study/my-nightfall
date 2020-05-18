@@ -49,6 +49,8 @@ contract Verifier is Ownable {
       Pairing.G1Point[] query;
   }
 
+
+  // 全局的 verification.key 类型
   Verification_Key_GM17 vk;
 
   function verify(uint256[] memory _proof, uint256[] memory _inputs, uint256[] memory _vk) public returns (bool result) {

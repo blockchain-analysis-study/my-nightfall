@@ -50,8 +50,14 @@ contract MerkleTree is MiMC {
 
     event Output(bytes32[2] input, bytes32[1] output, uint prevNodeIndex, uint nodeIndex); // for debugging only
 
+
+    // merkle tree 的 深度
     uint public treeHeight = 32; //change back to 32 after testing
+
+    // 树的宽度 可以放多少个 叶子结点
     uint public treeWidth = 2 ** treeHeight; // 2 ** treeHeight
+
+    // 当前 merkle tree 上已经存在的 叶子结点的数量
     uint256 public leafCount; // the number of leaves currently in the tree
 
     /**
@@ -65,7 +71,15 @@ contract MerkleTree is MiMC {
     // bytes27 zero = 0x000000000000000000000000000000000000000000000000000000;
 
     //Changed to bytes32 for MiMC hashing
+    //
+
+    // 通常，我们只使用bytes32，但需要在树上截断 nodeValues。 因此，我们需要声明某些具有较低字节长度的变量：
+    //
+
+    // 0值的叶子结点
     bytes32 zero = 0x0000000000000000000000000000000000000000000000000000000000000000;
+
+    // 添加下一个新的叶子值时，计算新根所需的最右边的节点“边界”。
     bytes32[33] frontier; // the right-most 'frontier' of nodes required to calculate the new root when the next new leaf value is added.
     //bytes32[] input;
 
@@ -73,6 +87,10 @@ contract MerkleTree is MiMC {
     @notice Get the index of the frontier (or 'storage slot') into which we will next store a nodeValue (based on the leafIndex currently being inserted). See the top-level README for a detailed explanation.
     @return uint - the index of the frontier (or 'storage slot') into which we will next store a nodeValue
     */
+    //
+    // todo  获取我们将在 merkle tree 存储 nodeValue的边界（或“存储插槽”）的索引（基于当前插入的leafIndex）。
+    //         有关详细说明，请参见顶级自述文件。
+    //
     function getFrontierSlot(uint leafIndex) public pure returns (uint slot) {
         slot = 0;
         if ( leafIndex % 2 == 1 ) {
@@ -96,11 +114,25 @@ contract MerkleTree is MiMC {
     @param leafValue - the value of the leaf being inserted.
     @return bytes32 - the root of the merkle tree, after the insert.
     */
+
+    // 插入一个叶子节点
+    //
+    // 将叶子插入Merkle树，更新根，并更新（持久存储）边界中的任何值。
+    //
+    // 入参:
+    //  leafValue: 入参的 叶子结点 (某个 commitment)
+    //
+    // 返参:
+    //  新的tree root
     function insertLeaf(bytes32 leafValue) public returns (bytes32 root) {
 
         // check that space exists in the tree:
+        //
+        // 校验正要插入的 叶子节点的 索引 是否合法
         require(treeWidth > leafCount, "There is no space left in the tree.");
 
+
+        //
         uint slot = getFrontierSlot(leafCount);
         uint nodeIndex = leafCount + treeWidth - 1;
         uint prevNodeIndex;
